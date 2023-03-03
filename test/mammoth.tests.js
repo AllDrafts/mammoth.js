@@ -400,6 +400,43 @@ test('can convert single paragraph to markdown', function() {
     });
 });
 
+test('extractMetadata extracts an object with metadata', function() {
+    var docxPath = path.join(__dirname, "test-data/full-doc-mock.docx");
+    var expectedResult = {
+        title: "SERVICE AGREEMENT",
+        subject: "Contract for Services including web site design and cake decoration.",
+        creator: "SAROTH",
+        keywords: "tagA; tagB, tagC",
+        description: "This is the comment field.\n\nIt has two paragraphs with a blank one between them.",
+        lastModifiedBy: "Bob Pritchett",
+        revision: "9",
+        lastPrinted: "2011-11-14T21:28:00Z",
+        created: "2021-09-27T12:48:00Z",
+        modified: "2023-03-03T18:11:00Z",
+        category: "Professional Services, Decorated Cakes",
+        contentStatus: "Incomplete Draft",
+        template: "Normal",
+        totalTime: "6",
+        pages: "15",
+        words: "6690",
+        characters: "38135",
+        application: "Microsoft Office Word",
+        docSecurity: "0",
+        lines: "317",
+        paragraphs: "89",
+        scaleCrop: "false",
+        company: "City of Indianapolis/Marion County",
+        linksUpToDate: "false",
+        charactersWithSpaces: "44736",
+        sharedDoc: "false",
+        hyperlinksChanged: "false",
+        appVersion: "16.0000"
+    };
+    return mammoth.extractMetadata({path: docxPath}).then(function(result) {
+        assert.deepEqual(result, expectedResult);
+    });
+});
+
 test('extractRawText only retains raw text', function() {
     var docxPath = path.join(__dirname, "test-data/simple-list.docx");
     return mammoth.extractRawText({path: docxPath}).then(function(result) {
